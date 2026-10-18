@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e9">
+  <meta name="description" content="Уютная игра о книгах для 1–4 класса. Вспоминай авторов, читай истории и собирай библиотеку вместе с пуделем Винсентом.">
+  <title>Книжная мастерская Винсента</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./data.js" defer></script>
+  <script src="./texts.js" defer></script>
+  <script src="./engine.js" defer></script>
+  <script src="./narration.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">К содержимому</a>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Книжная мастерская Винсента, на главную"><span class="brand-seal" aria-hidden="true">В</span><span>Книжная мастерская<small>В И Н С Е Н Т А</small></span></a>
+    <nav class="main-nav" aria-label="Главная навигация"><a href="#home" data-nav="home">Играть</a><a href="#library" data-nav="library">Библиотека</a><a href="#shelf" data-nav="shelf">Моя полка <span id="shelf-count">0</span></a><a href="#wardrobe" data-nav="wardrobe">Винсент</a></nav>
+    <button type="button" id="sound-toggle" class="icon-button" aria-label="Включить звуки" aria-pressed="false"></button>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer"><span>Сделано для Вари и её друзей</span><span>Первая полка · 24 произведения из списка для 1–4 классов</span><button type="button" data-action="about">Об игре</button></footer>
+  <dialog id="reader" aria-labelledby="reader-title"><div id="reader-content"></div></dialog>
+  <dialog id="about" aria-labelledby="about-title"><button class="close-dialog" type="button" data-action="close-about" aria-label="Закрыть">×</button><span class="eyebrow">Для родителей</span><h2 id="about-title">Немного о мастерской</h2><p>Это первая версия игры по списку с фотографий: 24 произведения. Полный список будем добавлять постепенно. Классы взяты из присланной таблицы; если в строке указано несколько классов, произведение доступно в каждом из них.</p><p>В каждой истории есть краткое описание и вопрос о содержании. Часть коротких классических текстов уже можно читать здесь. У остальных пока доступно описание и ссылка на источник.</p><p>«Помню автора» и «Понимаю историю» отмечаются отдельно. Прочитанный во время задания текст считается подсказкой. Книга становится освоенной после двух самостоятельных ответов по каждому направлению и игры в обоих режимах.</p><p>Каждые 10 верных ответов по содержанию открывают один подарок для Винсента на выбор. Ответ считается один раз, когда история отправляется на полку; подсказки не отнимают подарки.</p><p>В карточке можно включить озвучивание текста голосом устройства. Это не актёрская аудиозапись; наличие русского голоса зависит от браузера и настроек устройства.</p><p>Прогресс хранится только в этом браузере. Регистрация не нужна. При очистке данных браузера прогресс исчезнет. Звук выключен по умолчанию.</p><p>Описания и вопросы написаны для игры. Классические тексты сопровождаются ссылками на источники. Иллюстрации Винсента созданы с помощью генерации изображений по предоставленному референсу.</p><button type="button" class="button secondary" data-action="export-progress">Сохранить мой прогресс</button></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div id="celebration" aria-hidden="true"></div>
+  <noscript><p class="noscript">Для игры нужен JavaScript. Включи его в браузере и обнови страницу.</p></noscript>
+</body>
+</html>
