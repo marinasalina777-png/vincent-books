@@ -26,6 +26,42 @@
     const distractors = shuffle(allWorks.filter(w=>w.author!==author),random).slice(0,Math.max(2,5-targets.length));
     return { author, targets, options: shuffle([...targets,...distractors],random) };
   }
+  function recallRound(works, previous = null, random = Math.random) {
+    const authors = [...new Set(works.map(w=>w.author))];
+    const available = authors.filter(a=>a!==previous);
+    const author = shuffle(available.length ? available : authors, random)[0];
+    return author ? {author, targets:works.filter(w=>w.author===author)} : null;
+  }
+  function normalizeTitle(text) {
+    return String(text).toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/g,' ').trim().replace(/\s+/g,' ');
+  }
+  const commonAliases = {
+    saltan:['Сказка о царе Салтане, о сыне его славном и могучем богатыре князе Гвидоне Салтановиче и о прекрасной царевне Лебеди','Царь Салтан'],
+    rybak:['О рыбаке и рыбке'], north:['Вот север тучи нагоняя'],
+    'lunin-chudo':['Я видела чудо'],
+    'tyoma-zhuchka':['Детство Тёмы','Тёма и Жучка'],
+    'dead-princess':['Сказка о мёртвой царевне','Мёртвая царевна и семь богатырей'],
+    'tom-sawyer':['Приключения Тома Сойера']
+  };
+  function titleVariants(w) {
+    return [...new Set([w.title,w.title.replace(/\s*\([^)]*\)/g,''),...(commonAliases[w.id]||[]),...(w.answerAliases||[])].map(normalizeTitle).filter(Boolean))];
+  }
+  function editDistance(a,b) {
+    let row=Array.from({length:b.length+1},(_,i)=>i);
+    for(let i=1;i<=a.length;i++){const next=[i];for(let j=1;j<=b.length;j++)next[j]=Math.min(next[j-1]+1,row[j]+1,row[j-1]+(a[i-1]===b[j-1]?0:1));row=next;}
+    return row[b.length];
+  }
+  function matchTitle(input, works) {
+    const title=normalizeTitle(input);if(!title||title.length>300)return null;
+    const exact=works.filter(w=>titleVariants(w).includes(title));
+    if(exact.length===1)return {work:exact[0],typo:false};
+    if(exact.length>1)return {ambiguous:true};
+    if(title.length<5)return null;
+    const matches=works.map(work=>({work,distance:Math.min(...titleVariants(work).map(v=>Math.abs(v.length-title.length)>2?Infinity:editDistance(title,v)))})).filter(m=>m.distance<=(title.length>=10?2:1)&&m.distance/title.length<=.2).sort((a,b)=>a.distance-b.distance);
+    if(!matches.length)return null;
+    if(matches[1]?.distance===matches[0].distance)return {ambiguous:true};
+    return {work:matches[0].work,typo:true};
+  }
   function matchesShelf(selected, targets) {
     return selected.length === targets.length && new Set(selected).size === targets.length && targets.every(w=>selected.includes(w.id));
   }
@@ -40,7 +76,7 @@
     p.last = date;
     return { ...progress, [id]:p };
   }
-  function mastered(p) { return !!p && p.author>=2 && p.meaning>=2 && p.directions?.includes('pairs') && p.directions?.includes('shelf') && !p.review; }
+  function mastered(p) { return !!p && p.author>=2 && p.meaning>=2 && p.directions?.includes('pairs') && (p.directions?.includes('shelf')||p.directions?.includes('recall')) && !p.review; }
   const gifts=[
     {id:'classic',name:'Любимый берет',kind:'look',asset:'./assets/vincent.png',description:'Винсент, каким мы познакомились. Этот образ уже твой.'},
     {id:'scarf',name:'Уютный шарф',kind:'look',asset:'./assets/vincent-scarf.png',description:'Красный шарф для зимних стихов и тёплых историй.'},
@@ -63,12 +99,12 @@
       if (!s || s.version!==1) return null;
       const progress = {};
       for (const [id,p] of Object.entries(s.progress||{})) {
-        if (p && typeof p==='object') progress[id]={...emptyProgress(),author:Math.max(0,Number(p.author)||0),meaning:Math.max(0,Number(p.meaning)||0),assisted:Math.max(0,Number(p.assisted)||0),review:!!p.review,directions:Array.isArray(p.directions)?p.directions.filter(d=>['pairs','shelf'].includes(d)):[],last:typeof p.last==='string'?p.last:null};
+        if (p && typeof p==='object') progress[id]={...emptyProgress(),author:Math.max(0,Number(p.author)||0),meaning:Math.max(0,Number(p.meaning)||0),assisted:Math.max(0,Number(p.assisted)||0),review:!!p.review,directions:Array.isArray(p.directions)?p.directions.filter(d=>['pairs','shelf','recall'].includes(d)):[],last:typeof p.last==='string'?p.last:null};
       }
-      return { version:1, progress, wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:s.mode==='shelf'?'shelf':'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
+      return { version:1, progress, wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
     } catch { return null; }
   }
-  const api={shuffle,pool,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
+  const api={shuffle,pool,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
   if (typeof module!=='undefined' && module.exports) module.exports=api;
   else root.VincentEngine=api;
 })(globalThis);
