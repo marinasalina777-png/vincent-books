@@ -12,25 +12,39 @@
     const p = progress[work.id];
     return !p ? 1 : p.review ? 0 : mastered(p) ? 3 : 2;
   }
-  function pairRound(works, progress = {}, size = 4, random = Math.random) {
-    const sorted = shuffle(works, random).sort((a,b) => priority(a,progress) - priority(b,progress));
-    const seen = new Set();
-    return sorted.filter(w => { if (seen.has(w.author)) return false; seen.add(w.author); return true; }).slice(0,size);
+  function times(counts,id){const value=Number(counts?.[id]);return Number.isFinite(value)?Math.max(0,value):0;}
+  function rotation(raw={}){
+    const cleanCounts=counts=>Object.fromEntries(Object.entries(counts&&typeof counts==='object'?counts:{}).filter(([id,n])=>/^[a-z0-9-]+$/i.test(id)&&Number.isFinite(Number(n))&&Number(n)>=0).slice(0,1000).map(([id,n])=>[id,Math.min(1000000,Math.floor(Number(n)))]));
+    return Object.fromEntries(['pairs','shelf','recall'].map(mode=>{const h=raw?.[mode]||{};return [mode,{works:cleanCounts(h.works),authors:cleanCounts(h.authors),lastAuthors:Array.isArray(h.lastAuthors)?h.lastAuthors.filter(a=>typeof a==='string').slice(0,160):[]}];}));
   }
-  function shelfRound(works, allWorks, progress = {}, previous = null, random = Math.random) {
-    const groups = [...new Set(works.map(w=>w.author))].filter(a=>allWorks.some(w=>w.author!==a));
-    if (!groups.length) return null;
-    const choices = groups.filter(a=>a!==previous);
-    const author = shuffle(choices.length ? choices : groups,random).sort((a,b)=>Math.min(...works.filter(w=>w.author===a).map(w=>priority(w,progress)))-Math.min(...works.filter(w=>w.author===b).map(w=>priority(w,progress))))[0];
-    const targets = shuffle(works.filter(w=>w.author===author),random).slice(0,3);
-    const distractors = shuffle(allWorks.filter(w=>w.author!==author),random).slice(0,Math.max(2,5-targets.length));
-    return { author, targets, options: shuffle([...targets,...distractors],random) };
+  function orderedAuthors(works,progress,history,random,previous=null){
+    const authors=[...new Set(works.map(w=>w.author))],last=previous?[previous]:(history.lastAuthors||[]);
+    const priorityByAuthor=new Map(authors.map(a=>[a,Math.min(...works.filter(w=>w.author===a).map(w=>priority(w,progress)))]));
+    // Exposure comes first so a review card can never monopolize every round.
+    return shuffle(authors,random).sort((a,b)=>times(history.authors,a)-times(history.authors,b)||Number(last.includes(a))-Number(last.includes(b))||priorityByAuthor.get(a)-priorityByAuthor.get(b));
   }
-  function recallRound(works, previous = null, random = Math.random) {
-    const authors = [...new Set(works.map(w=>w.author))];
-    const available = authors.filter(a=>a!==previous);
-    const author = shuffle(available.length ? available : authors, random)[0];
-    return author ? {author, targets:works.filter(w=>w.author===author)} : null;
+  function orderedWorks(works,progress,history,random){return shuffle(works,random).sort((a,b)=>times(history.works,a.id)-times(history.works,b.id)||priority(a,progress)-priority(b,progress));}
+  function pairRound(works, progress = {}, size = 4, random = Math.random, history = {}) {
+    return orderedAuthors(works,progress,history,random).slice(0,size).map(author=>orderedWorks(works.filter(w=>w.author===author),progress,history,random)[0]);
+  }
+  function shelfRound(works, allWorks, progress = {}, previous = null, random = Math.random, history = {}) {
+    const eligible=works.filter(w=>allWorks.some(other=>other.author!==w.author));
+    const author=orderedAuthors(eligible,progress,history,random,previous)[0];
+    if(!author)return null;
+    const targets=orderedWorks(works.filter(w=>w.author===author),progress,history,random).slice(0,3);
+    const distractors=shuffle(allWorks.filter(w=>w.author!==author),random).slice(0,Math.max(2,5-targets.length));
+    return {author,targets,options:shuffle([...targets,...distractors],random)};
+  }
+  function recallRound(works, previous = null, random = Math.random, history = {}) {
+    const author=orderedAuthors(works,{},history,random,previous)[0];
+    return author ? {author,targets:works.filter(w=>w.author===author)} : null;
+  }
+  function recordRound(raw,mode,works){
+    const next=rotation(raw);if(!next[mode])return next;
+    const h=next[mode],ids=[...new Set(works.map(w=>w.id))],authors=[...new Set(works.map(w=>w.author))];
+    for(const id of ids)h.works[id]=times(h.works,id)+1;
+    for(const author of authors)h.authors[author]=times(h.authors,author)+1;
+    h.lastAuthors=authors;return next;
   }
   function normalizeTitle(text) {
     return String(text).toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/g,' ').trim().replace(/\s+/g,' ');
@@ -101,10 +115,10 @@
       for (const [id,p] of Object.entries(s.progress||{})) {
         if (p && typeof p==='object') progress[id]={...emptyProgress(),author:Math.max(0,Number(p.author)||0),meaning:Math.max(0,Number(p.meaning)||0),assisted:Math.max(0,Number(p.assisted)||0),review:!!p.review,directions:Array.isArray(p.directions)?p.directions.filter(d=>['pairs','shelf','recall'].includes(d)):[],last:typeof p.last==='string'?p.last:null};
       }
-      return { version:1, progress, wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
+      return { version:1, progress, rotation:rotation(s.rotation), wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
     } catch { return null; }
   }
-  const api={shuffle,pool,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
+  const api={shuffle,pool,rotation,recordRound,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
   if (typeof module!=='undefined' && module.exports) module.exports=api;
   else root.VincentEngine=api;
 })(globalThis);

@@ -31,4 +31,28 @@ test('Recall progress migrates and counts as author-to-works direction',()=>{let
 test('Overrides preserve immutable IDs/authors/questions and reject unsafe URLs',()=>{const data=C.sanitize({version:1,works:{kostochka:{title:'spoof',author:'pushkin',summary:'Новое описание',cover:'https://example.org/cover.jpg',audioLink:{url:'https://example.org/audio',label:'Аудиосказка'}},unknown:{summary:'unknown'}}},D);const w=C.apply(D,data).works.find(w=>w.id==='kostochka');assert.equal(w.title,'Косточка');assert.equal(w.author,'tolstoy');assert.equal(w.summary,'Новое описание');assert.equal(data.works.unknown,undefined);assert.equal(C.safeURL('javascript:alert(1)'), '');assert.equal(C.safeURL('https://user:pass@example.org'), '');assert.equal(C.safeURL('data:image/svg+xml;base64,PHN2Zz4=',true),'');assert.throws(()=>C.sanitize({version:1,works:{kostochka:{audioLink:{url:'javascript:alert(1)'}}}},D));});
 test('Draft cover is isolated and published cover must be a file or HTTPS',()=>{const raw={version:1,works:{kostochka:{cover:'data:image/jpeg;base64,YQ=='}}};assert.throws(()=>C.sanitize(raw,D));assert.equal(C.sanitize(raw,D,{draft:true}).works.kostochka.cover,raw.works.kostochka.cover);const shared=C.empty(),draft={entries:{kostochka:{value:{summary:'Черновик'}}}};assert.equal(C.draftOverrides(shared,draft).works.kostochka.summary,'Черновик');assert.equal(shared.works.kostochka,undefined);});
 test('All active pages contain no speech APIs or voice controls',()=>{for(const name of ['app.js','admin.js','content.js','index.html','admin.html'])assert.ok(!/speechSynthesis|SpeechSynthesisUtterance|data-narration|narration\.js|VincentNarrator/.test(fs.readFileSync(__dirname+'/'+name,'utf8')),name);});
+test('Полка с ошибкой не вытесняет остальных авторов из цикла',()=>{
+  const works=[{id:'a1',author:'a'},{id:'b1',author:'b'},{id:'c1',author:'c'},{id:'d1',author:'d'}],progress={a1:{review:true}},seen=[];let history=E.rotation();
+  for(let i=0;i<12;i++){const r=E.shelfRound(works,works,progress,null,()=>.5,history.shelf);seen.push(r.author);history=E.recordRound(history,'shelf',r.targets);}
+  assert.equal(seen[0],'a');for(let i=0;i<12;i+=4)assert.equal(new Set(seen.slice(i,i+4)).size,4);
+});
+test('Пары и авторы равномерно чередуются даже после ошибок',()=>{
+  const progress=Object.fromEntries(D.works.filter(w=>w.author==='tolstoy').map(w=>[w.id,{review:true}]));let history=E.rotation(),previous=[];const seen=new Set();
+  for(let i=0;i<100;i++){const cards=E.pairRound(D.works,progress,4,()=>.5,history.pairs);assert.equal(new Set(cards.map(w=>w.author)).size,cards.length);assert.ok(cards.every(w=>!previous.includes(w.author)));for(const w of cards)seen.add(w.author);history=E.recordRound(history,'pairs',cards);previous=cards.map(w=>w.author);}
+  assert.equal(seen.size,new Set(D.works.map(w=>w.author)).size);const exposures=Object.values(history.pairs.authors);assert.ok(Math.max(...exposures)-Math.min(...exposures)<=1);
+});
+test('Книги одного автора тоже чередуются, включая режим с одним автором',()=>{
+  const works=D.works.filter(w=>w.author==='tolstoy');let history=E.rotation();const seen=new Set();
+  for(let i=0;i<works.length;i++){const cards=E.pairRound(works,{kostochka:{review:true}},4,()=>.5,history.pairs);assert.equal(cards.length,1);seen.add(cards[0].id);history=E.recordRound(history,'pairs',cards);}
+  assert.equal(seen.size,works.length);
+});
+test('Ввод названий обходит всех авторов до нового цикла',()=>{
+  const count=new Set(D.works.map(w=>w.author)).size,seen=new Set();let history=E.rotation();
+  for(let i=0;i<count;i++){const r=E.recallRound(D.works,null,()=>.5,history.recall);assert.ok(!seen.has(r.author));seen.add(r.author);history=E.recordRound(history,'recall',r.targets);}
+  assert.equal(seen.size,count);
+});
+test('История показа сохраняется после перезагрузки без потери прогресса и подарков',()=>{
+  const works=D.works.filter(w=>w.author==='tolstoy'),first=E.pairRound(works,{},1,()=>.5);const history=E.recordRound({},'pairs',first);const state=E.readState({getItem:()=>JSON.stringify({version:1,rotation:history,progress:{kostochka:{author:2,meaning:3}},wardrobe:{correct:10,owned:['classic','scarf'],look:'scarf'}})});
+  assert.notEqual(E.pairRound(works,{},1,()=>.5,state.rotation.pairs)[0].id,first[0].id);assert.equal(state.progress.kostochka.meaning,3);assert.equal(state.wardrobe.look,'scarf');assert.equal(E.rotation({pairs:{works:{x:Infinity,y:-1,z:'bad'}}}).pairs.works.x,undefined);
+});
 console.log('\n'+tests+' проверок пройдено.');
