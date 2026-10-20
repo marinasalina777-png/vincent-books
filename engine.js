@@ -1,5 +1,6 @@
 (function (root) {
   'use strict';
+  const Rewards=typeof module!=='undefined'&&module.exports?require('./rewards.js'):root.VincentRewards;
   function shuffle(items, random = Math.random) {
     const a = [...items];
     for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -115,7 +116,7 @@
       for (const [id,p] of Object.entries(s.progress||{})) {
         if (p && typeof p==='object') progress[id]={...emptyProgress(),author:Math.max(0,Number(p.author)||0),meaning:Math.max(0,Number(p.meaning)||0),assisted:Math.max(0,Number(p.assisted)||0),review:!!p.review,directions:Array.isArray(p.directions)?p.directions.filter(d=>['pairs','shelf','recall'].includes(d)):[],last:typeof p.last==='string'?p.last:null};
       }
-      return { version:1, progress, rotation:rotation(s.rotation), wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
+      return { version:1, progress, shop:s.shop?.version===1?Rewards.state(s.shop):null, quest:!!s.quest, rotation:rotation(s.rotation), wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
     } catch { return null; }
   }
   const api={shuffle,pool,rotation,recordRound,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};

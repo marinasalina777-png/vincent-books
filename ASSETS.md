@@ -23,3 +23,62 @@
 > OUTFIT: thin round dark bronze spectacles perched naturally in front of his eyes and a small sage-green bow tie at his neck. Glasses do not hide his expressive eyes. Preserve original black beret. No other clothing.
 
 Мячик `assets/ball.svg` и косточка `assets/bone.svg` — собственные векторные элементы интерфейса, сочетающиеся с существующими условными иллюстрациями.
+
+
+## Коллекция 0.5.0 · 20 октября 2026
+
+24 файла `assets/rewards/*.svg` — собственная векторная графика в палитре игры, включая отдельные накладные аксессуары в `wardrobe.js`. Эмодзи не используются вместо арта. Четыре полных прозрачных образа `vincent-hoodie.png`, `vincent-capybara.png`, `vincent-dragon.png`, `vincent-keeper.png` получены встроенным ImageGen по `assets/vincent.png`. Прозрачность и внешность Винсента сохранены; финальные промпты ниже.
+
+# Vincent wardrobe outfit generation
+
+Mode: built-in image_gen; identity-preserve edits. All four assets use transparent_background=true. Reference: outputs/vincent-books/assets/vincent.png (existing Vincent mascot provided by project). AI-generated production variants, no third-party visual assets inserted. Generated 2026-10-20.
+
+## vincent-hoodie.png
+
+ImageGen source ID: exec-9517ed24-4040-4219-b9bd-0edf19117d32.png
+
+Final prompt:
+
+Use case: identity-preserve.
+Asset type: transparent watercolor mascot outfit for a children's reading web game.
+Input image 1 is the edit target and exact character reference. Change only the clothing into a cozy oversized sage green hoodie with warm orange lining and a small paw emblem on the chest. Keep hood down so the black beret and ears remain visible.
+Preserve the exact same friendly apricot toy poodle Vincent: same expressive brown eyes, smiling muzzle and pink tongue, long curly apricot ears, seated greeting pose with right paw raised, tail curling left, red closed book lower right, proportions, scale, centered square framing and delicate hand painted watercolor style. The full dog, paws, tail and book must fit inside the canvas. Same placement and silhouette as far as clothing allows.
+Output a single mascot cutout, genuinely transparent alpha background. No scenery, floor, shadow disc, border, letters, watermark, extra props or extra characters. Keep crisp naturally painted watercolor edges; no checkerboard painted into the art.
+
+## vincent-capybara.png
+
+ImageGen source ID: exec-fd0e15fa-7b4b-464d-b142-465001c2c254.png
+
+Final prompt:
+
+Use case: identity-preserve.
+Asset type: transparent watercolor mascot outfit for a children's reading web game.
+Input image 1 is the edit target and exact character reference. Change only the clothing into a cozy caramel capybara kigurumi onesie with round capybara ears and little sleepy capybara face on its hood. The hood can replace the black beret, but the apricot poodle's face and long curly ears remain unmistakably visible.
+Preserve the exact same friendly apricot toy poodle Vincent: same expressive brown eyes, smiling muzzle and pink tongue, long curly apricot ears, seated greeting pose with right paw raised, tail curling left, red closed book lower right, proportions, scale, centered square framing and delicate hand painted watercolor style. The full dog, paws, tail and book must fit inside the canvas. Same placement and silhouette as far as clothing allows.
+Output a single mascot cutout, genuinely transparent alpha background. No scenery, floor, shadow disc, border, letters, watermark, extra props or extra characters. Keep crisp naturally painted watercolor edges; no checkerboard painted into the art.
+
+## vincent-dragon.png
+
+ImageGen source ID: exec-cb976403-9431-4378-ba46-9351ca9d9fdd.png
+
+Final prompt:
+
+Use case: identity-preserve.
+Asset type: transparent watercolor mascot outfit for a children's reading web game.
+Input image 1 is the edit target and exact character reference. Change only the clothing into a teal and sage dragon costume with two small decorative wings and rounded soft dorsal spikes. Keep the black beret visible, and the poodle's face and long curly ears unchanged.
+Preserve the exact same friendly apricot toy poodle Vincent: same expressive brown eyes, smiling muzzle and pink tongue, long curly apricot ears, seated greeting pose with right paw raised, tail curling left, red closed book lower right, proportions, scale, centered square framing and delicate hand painted watercolor style. The full dog, paws, tail and book must fit inside the canvas. Same placement and silhouette as far as clothing allows.
+Output a single mascot cutout, genuinely transparent alpha background. No scenery, floor, shadow disc, border, letters, watermark, extra props or extra characters. Keep crisp naturally painted watercolor edges; no checkerboard painted into the art.
+
+## vincent-keeper.png
+
+ImageGen source ID: exec-dc599d0c-641b-4770-88ee-5838ee3b9b27.png
+
+Final prompt:
+
+Use case: identity-preserve.
+Asset type: transparent watercolor mascot outfit for a children's reading web game.
+Input image 1 is the edit target and exact character reference. Change only the clothing into a magnificent storykeeper outfit: an elegant golden crown worn in place of the beret, midnight teal cape with tiny gold star and book embroidery, soft regal collar. No lettering.
+Preserve the exact same friendly apricot toy poodle Vincent: same expressive brown eyes, smiling muzzle and pink tongue, long curly apricot ears, seated greeting pose with right paw raised, tail curling left, red closed book lower right, proportions, scale, centered square framing and delicate hand painted watercolor style. The full dog, paws, tail and book must fit inside the canvas. Same placement and silhouette as far as clothing allows.
+Output a single mascot cutout, genuinely transparent alpha background. No scenery, floor, shadow disc, border, letters, watermark, extra props or extra characters. Keep crisp naturally painted watercolor edges; no checkerboard painted into the art.
+
+
