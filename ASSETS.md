@@ -82,3 +82,8 @@ Preserve the exact same friendly apricot toy poodle Vincent: same expressive bro
 Output a single mascot cutout, genuinely transparent alpha background. No scenery, floor, shadow disc, border, letters, watermark, extra props or extra characters. Keep crisp naturally painted watercolor edges; no checkerboard painted into the art.
 
 
+
+
+## Акварельная коллекция 0.5.1
+
+Плоские наградные SVG в интерфейсе заменены акварельным артом, соответствующим Винсенту. 22 новых оригинала созданы встроенным ImageGen; четыре готовых полных образа повторно использованы в карточках наград. Прежние мячик и косточка тоже перерисованы. Перечень финальных файлов, точные промпты и способ веб-оптимизации — [WATERCOLOR-ART.md](WATERCOLOR-ART.md).

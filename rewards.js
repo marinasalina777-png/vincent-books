@@ -27,16 +27,16 @@
     ['iphone','iPhone 18 Pro Max',23,'toy','Телефон Винсента. Нажми, чтобы сделать и сохранить его селфи.','selfie'],
     ['storykeeper','Хранитель историй',30,'look','Корона, волшебный плащ и сияющая библиотека за все 160 книг в двух направлениях.','keeper']
   ];
-  const outfitAssets={hoodie:'vincent-hoodie.png','capybara-suit':'vincent-capybara.png','dragon-suit':'vincent-dragon.png',storykeeper:'vincent-keeper.png'};
+  const outfitAssets={hoodie:'vincent-hoodie.webp','capybara-suit':'vincent-capybara.webp','dragon-suit':'vincent-dragon.webp',storykeeper:'vincent-keeper.webp','holo-raincoat':'vincent-raincoat.webp'};
   const asset=path=>root.VincentAssetMap?.[path]||path;
   let total=0;
-  const catalogue=specs.map(([id,name,cost,slot,description,animation],i)=>({id,name,cost,slot,description,animation,index:i,after:total+=cost,asset:asset('./assets/rewards/'+id+'.svg'),lookAsset:outfitAssets[id]?asset('./assets/rewards/'+outfitAssets[id]):null,colors:['butter','dumpling','mochi-cat','fluffy-backpack','heart-glasses','clogs','glowing-sneakers','galaxy-squishy','iphone'].includes(id)?['original','mint','lavender']:['original']}));
+  const catalogue=specs.map(([id,name,cost,slot,description,animation],i)=>({id,name,cost,slot,description,animation,index:i,after:total+=cost,asset:asset('./assets/rewards-watercolor/'+(outfitAssets[id]||id+'.webp')),lookAsset:outfitAssets[id]?asset('./assets/rewards-watercolor/'+outfitAssets[id]):null,colors:['butter','dumpling','mochi-cat','fluffy-backpack','heart-glasses','clogs','glowing-sneakers','galaxy-squishy','iphone'].includes(id)?['original','mint','lavender']:['original']}));
   const legacy=[
-    {id:'classic',name:'Любимый берет',slot:'look',asset:'./assets/vincent.png'},
-    {id:'scarf',name:'Уютный шарф',slot:'look',asset:'./assets/vincent-scarf.png'},
-    {id:'professor',name:'Книжный профессор',slot:'look',asset:'./assets/vincent-professor.png'},
-    {id:'ball',name:'Весёлый мячик',slot:'toy',asset:'./assets/ball.svg'},
-    {id:'bone',name:'Косточка',slot:'toy',asset:'./assets/bone.svg'}
+    {id:'classic',name:'Любимый берет',slot:'look',asset:asset('./assets/rewards-watercolor/vincent.webp')},
+    {id:'scarf',name:'Уютный шарф',slot:'look',asset:asset('./assets/rewards-watercolor/vincent-scarf.webp')},
+    {id:'professor',name:'Книжный профессор',slot:'look',asset:asset('./assets/rewards-watercolor/vincent-professor.webp')},
+    {id:'ball',name:'Весёлый мячик',slot:'toy',asset:asset('./assets/rewards-watercolor/ball.webp')},
+    {id:'bone',name:'Косточка',slot:'toy',asset:asset('./assets/rewards-watercolor/bone.webp')}
   ];
   const coins=n=>n+' '+(n%100>=11&&n%100<=14?'монеток':n%10===1?'монетка':n%10>=2&&n%10<=4?'монетки':'монеток');
   const slots=['look','toy','face','feet','head','backpack','charm','ride'];
