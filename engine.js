@@ -119,7 +119,10 @@
       return { version:1, progress, shop:s.shop?.version===1?Rewards.state(s.shop):null, quest:!!s.quest, rotation:rotation(s.rotation), wardrobe:wardrobe(s.wardrobe), grade:[0,1,2,3,4].includes(s.grade)?s.grade:0, mode:['pairs','shelf','recall'].includes(s.mode)?s.mode:'pairs', memory:!!s.memory, sound:!!s.sound, custom:Array.isArray(s.custom)?s.custom.filter(id=>typeof id==='string'):null };
     } catch { return null; }
   }
-  const api={shuffle,pool,rotation,recordRound,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
+  // Another tab may have saved newer answers; keep the latest entry per book and the highest exposure counts.
+  function mergeProgress(mine={},other={}){const out={...other};for(const[id,p]of Object.entries(mine||{})){const o=out[id];if(!o||String(p?.last||'')>=String(o?.last||''))out[id]=p;}return out;}
+  function mergeRotation(mine,other){const a=rotation(mine),b=rotation(other);for(const mode of Object.keys(a))for(const key of ['works','authors'])for(const[id,n]of Object.entries(b[mode][key]))a[mode][key][id]=Math.max(times(a[mode][key],id),n);return a;}
+  const api={shuffle,pool,rotation,recordRound,mergeProgress,mergeRotation,recallRound,normalizeTitle,matchTitle,pairRound,shelfRound,matchesShelf,record,mastered,readState,gifts,wardrobe,giftTokens,rewardAnswer,claimGift,equipGift};
   if (typeof module!=='undefined' && module.exports) module.exports=api;
   else root.VincentEngine=api;
 })(globalThis);

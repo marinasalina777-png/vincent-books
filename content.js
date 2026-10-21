@@ -32,9 +32,12 @@
   function draftOverrides(published,draft){const out={...published,works:{...published.works}};for(const [id,entry] of Object.entries(draft.entries||{}))out.works[id]={...out.works[id],...entry.value};return out;}
   async function published(data){
     if(root.VincentPublishedContent)return sanitize(root.VincentPublishedContent,data);
-    const response=await fetch('./overrides.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});
-    if(!response.ok)throw Error('Не удалось загрузить правки каталога. Проверьте подключение и обновите страницу.');
-    return sanitize(await response.json(),data);
+    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+    try{
+      const response=await fetch('./overrides.json',{cache:'no-store',signal:controller.signal});
+      if(!response.ok)throw Error('Не удалось загрузить правки каталога. Проверьте подключение и обновите страницу.');
+      return sanitize(await response.json(),data);
+    }finally{clearTimeout(timer);}
   }
   async function load(data){let shared,error=null;try{shared=await published(data);}catch(e){shared=empty();error=e.message;}
     const preview=new URLSearchParams(location.search).get('preview')==='1';let effective=shared;

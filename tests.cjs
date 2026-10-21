@@ -55,4 +55,9 @@ test('История показа сохраняется после переза
   const works=D.works.filter(w=>w.author==='tolstoy'),first=E.pairRound(works,{},1,()=>.5);const history=E.recordRound({},'pairs',first);const state=E.readState({getItem:()=>JSON.stringify({version:1,rotation:history,progress:{kostochka:{author:2,meaning:3}},wardrobe:{correct:10,owned:['classic','scarf'],look:'scarf'}})});
   assert.notEqual(E.pairRound(works,{},1,()=>.5,state.rotation.pairs)[0].id,first[0].id);assert.equal(state.progress.kostochka.meaning,3);assert.equal(state.wardrobe.look,'scarf');assert.equal(E.rotation({pairs:{works:{x:Infinity,y:-1,z:'bad'}}}).pairs.works.x,undefined);
 });
+test('Сохранение из второй вкладки не стирает прогресс и историю показа первой',()=>{
+  const mine={a:{author:1,meaning:1,last:'2026-10-01T10:00:00Z'},b:{author:2,meaning:2,last:'2026-10-03T10:00:00Z'}},other={a:{author:3,meaning:3,last:'2026-10-02T10:00:00Z'},b:{author:1,meaning:0,last:'2026-10-02T10:00:00Z'},c:{author:1,meaning:1,last:'2026-10-02T10:00:00Z'}};
+  const merged=E.mergeProgress(mine,other);assert.equal(merged.a.author,3);assert.equal(merged.b.author,2);assert.equal(merged.c.meaning,1);
+  const rot=E.mergeRotation({pairs:{works:{x:2},authors:{p:1}}},{pairs:{works:{x:1,y:4},authors:{p:3}}});assert.equal(rot.pairs.works.x,2);assert.equal(rot.pairs.works.y,4);assert.equal(rot.pairs.authors.p,3);
+});
 console.log('\n'+tests+' проверок пройдено.');
