@@ -87,3 +87,20 @@ Output a single mascot cutout, genuinely transparent alpha background. No scener
 ## Акварельная коллекция 0.5.1
 
 Плоские наградные SVG в интерфейсе заменены акварельным артом, соответствующим Винсенту. 22 новых оригинала созданы встроенным ImageGen; четыре готовых полных образа повторно использованы в карточках наград. Прежние мячик и косточка тоже перерисованы. Перечень финальных файлов, точные промпты и способ веб-оптимизации — [WATERCOLOR-ART.md](WATERCOLOR-ART.md).
+
+## Звуки · 0.5.2
+
+Восемь коротких эффектов из [Pixabay Sound Effects](https://pixabay.com/sound-effects/) по [лицензии Pixabay](https://pixabay.com/service/license-summary/): бесплатно, без обязательной атрибуции. Файлы обрезаны (тишина в начале, 0,5–2,6 с), приведены к моно 96 kbps, плавно затухают и выровнены по громкости до −22…−28 LUFS, чтобы не перекрикивать ребёнка и класс.
+
+| Файл в `assets/sounds/` | Когда звучит | Исходник |
+| --- | --- | --- |
+| `correct.mp3` | верная пара, полка, найденное название, верный ответ | [UI Success Chime](https://pixabay.com/sound-effects/technology-ui-success-chime-513565/) |
+| `wrong.mp3` | ошибка в паре, полке или вопросе | [Soft UI Warning Alert](https://pixabay.com/sound-effects/film-special-effects-soft-ui-warning-alert-1-614153/) |
+| `coin.mp3` | заработана монетка (кроме последнего вопроса раунда) | [Coin](https://pixabay.com/sound-effects/film-special-effects-coin-257878/) |
+| `round-complete.mp3` | раунд пройден с подсказками | [Marimba Win B 3](https://pixabay.com/sound-effects/musical-marimba-win-b-3-209679/) |
+| `grand-finale.mp3` | раунд без единой подсказки, «Хранитель историй» | [Harp Flourish](https://pixabay.com/sound-effects/musical-harp-flourish-6251/) |
+| `purchase.mp3` | покупка в магазине Винсента | [Magical Notification Tone](https://pixabay.com/sound-effects/film-special-effects-magical-notification-tone-soft-fantasy-digital-alert-438278/) |
+| `page.mp3` | открытие карточки или текста истории | [Page Turn](https://pixabay.com/sound-effects/film-special-effects-page-turn-305789/) |
+| `tap.mp3` | нажатие на игрушку | [Pop](https://pixabay.com/sound-effects/film-special-effects-pop-402324/) |
+
+`sounds.js` загружает файлы через Web Audio. Если файл не загрузился, для верного и неверного ответа звучит прежний синтезированный аккорд. Громкость каждого эффекта задаётся в `volume` внутри `sounds.js`.
