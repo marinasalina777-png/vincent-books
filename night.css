@@ -78,15 +78,15 @@ main{max-width:1200px;padding:28px 40px 72px;overflow-x:clip}
 /* ── Главная: герой с лампой и полкой ───────────── */
 .hero{grid-template-columns:1.05fr 1fr;min-height:520px;gap:20px;padding-bottom:40px}
 /* Книжки на полке рядом с Винсентом */
-.hero:before{content:'';position:absolute;right:-34px;bottom:40px;width:150px;height:118px;z-index:1;pointer-events:none;background:linear-gradient(#c8644c,#c8644c) 0 100%/26px 104px no-repeat,linear-gradient(#c99325,#c99325) 30px 100%/22px 88px no-repeat,linear-gradient(#2f8f80,#2f8f80) 56px 100%/28px 116px no-repeat,linear-gradient(#fff4dc,#fff4dc) 88px 100%/20px 80px no-repeat,linear-gradient(#7c64b8,#7c64b8) 112px 100%/26px 98px no-repeat;filter:drop-shadow(0 -2px 0 #ffffff22) drop-shadow(0 10px 16px #050f1880);border-radius:4px 4px 0 0}
+.hero:before{content:'';position:absolute;right:-34px;bottom:46px;width:150px;height:118px;z-index:1;pointer-events:none;background:linear-gradient(#c8644c,#c8644c) 0 100%/26px 104px no-repeat,linear-gradient(#c99325,#c99325) 30px 100%/22px 88px no-repeat,linear-gradient(#2f8f80,#2f8f80) 56px 100%/28px 116px no-repeat,linear-gradient(#fff4dc,#fff4dc) 88px 100%/20px 80px no-repeat,linear-gradient(#7c64b8,#7c64b8) 112px 100%/26px 98px no-repeat;filter:drop-shadow(0 -2px 0 #ffffff22) drop-shadow(0 10px 16px #050f1880);border-radius:4px 4px 0 0}
 .hero:after{content:'';position:absolute;left:-40px;right:-40px;bottom:0;height:40px;border-radius:6px;background:linear-gradient(#7a4a29,#4e2c17);box-shadow:0 -7px 0 #94603a,0 18px 30px #050f18aa}
 .hero-copy .eyebrow{font-size:18px}
 .hero h1{max-width:620px;margin-bottom:24px}
 .hero h1 em{font-style:normal;color:inherit;font-weight:inherit}
 .hero-copy>p{color:var(--cream-2);font-size:22px;line-height:1.5;max-width:30ch;margin-bottom:28px}
-.hero-cta{margin-bottom:22px}
-.hero-note{font:700 16px var(--ui);color:var(--mist)}
-.hero-note svg{width:20px;height:20px;color:var(--lamp)}
+.hero-cta{margin-bottom:0}
+.hero-note{position:absolute;left:0;right:0;bottom:0;height:40px;z-index:2;justify-content:center;font:800 16px var(--ui);color:#f6dcb4;text-shadow:0 1px 0 #2b170a}
+.hero-note svg{width:20px;height:20px;color:var(--lamp);filter:drop-shadow(0 1px 0 #2b170a)}
 .hero-art{min-height:470px;align-self:end}
 .hero-art .mascot-wrap{margin-bottom:-30px}
 .hero-art:before{width:110%;max-width:560px;bottom:auto;top:4%;border-radius:50%;background:radial-gradient(circle,#ffd98a5c,#f2b54414 55%,transparent 70%)}
@@ -341,12 +341,12 @@ dialog .read-button{color:#9a5f0a}
   main{padding:18px 16px 44px}
   .hero{text-align:left;padding-bottom:44px}
   .hero:after{left:-16px;right:-16px;height:30px}
-  .hero:before{bottom:30px;right:0;transform:scale(.7);transform-origin:100% 100%}
+  .hero:before{bottom:36px;right:0;transform:scale(.7);transform-origin:100% 100%}
   .hero-copy .eyebrow{font-size:16px;letter-spacing:0}
   .hero h1{font-size:42px;letter-spacing:-.3px}
   .hero-copy>p{font-size:19px;margin:0 0 20px;max-width:none}
   .hero-cta{width:100%}
-  .hero-note{justify-content:flex-start;font-size:15px}
+  .hero-note{height:30px;font-size:15px}
   .hero-art{min-height:280px}.hero-art .vincent,.hero-art .mascot-wrap{max-width:270px}
   .float-note{font-size:16px;max-width:150px;padding:12px 14px;left:0}
   .play-panel{padding:22px 18px;border-radius:26px;margin-top:28px}
