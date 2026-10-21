@@ -88,7 +88,7 @@ main{max-width:1200px;padding:28px 40px 72px;overflow-x:clip}
 .hero-note{font:700 16px var(--ui);color:var(--mist)}
 .hero-note svg{width:20px;height:20px;color:var(--lamp)}
 .hero-art{min-height:470px;align-self:end}
-.hero-art .mascot-wrap{margin-bottom:-4px}
+.hero-art .mascot-wrap{margin-bottom:-30px}
 .hero-art:before{width:110%;max-width:560px;bottom:auto;top:4%;border-radius:50%;background:radial-gradient(circle,#ffd98a5c,#f2b54414 55%,transparent 70%)}
 .vincent{filter:drop-shadow(0 26px 30px #050f18b3)}
 .hero-art .vincent,.hero-art .mascot-wrap{max-width:430px}
