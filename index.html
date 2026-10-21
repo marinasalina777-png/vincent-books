@@ -3,25 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3e9">
+  <meta name="theme-color" content="#10283d">
   <meta name="description" content="Уютная игра о книгах для 1–4 класса. Вспоминай авторов, читай истории и собирай библиотеку вместе с пуделем Винсентом.">
   <title>Книжная мастерская Винсента</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=0.5.2">
+  <link rel="stylesheet" href="./styles.css?v=0.6.0">
   <link rel="stylesheet" href="./shop.css?v=0.5.1">
+  <link rel="stylesheet" href="./night.css?v=0.6.1">
+  <link rel="stylesheet" href="./night-shop.css?v=0.6.0">
   <script src="./data.js" defer></script>
   <script src="./texts.js" defer></script>
   <script src="./rewards.js?v=0.5.1" defer></script>
-  <script src="./wardrobe.js?v=0.5.2" defer></script>
+  <script src="./wardrobe.js?v=0.6.0" defer></script>
   <script src="./sounds.js?v=0.5.2" defer></script>
   <script src="./engine.js?v=0.5.2" defer></script>
   <script src="./content.js?v=0.5.2" defer></script>
-  <script src="./app.js?v=0.5.2" defer></script>
+  <script src="./app.js?v=0.6.1" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">К содержимому</a>
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="Книжная мастерская Винсента, на главную"><span class="brand-seal" aria-hidden="true">В</span><span>Книжная мастерская<small>В И Н С Е Н Т А</small></span></a>
+    <a class="brand" href="#home" aria-label="Книжная мастерская Винсента, на главную"><span class="brand-seal" aria-hidden="true">В</span><span>Книжная мастерская<small>Винсента</small></span></a>
     <nav class="main-nav" aria-label="Главная навигация"><a href="#home" data-nav="home">Играть</a><a href="#library" data-nav="library">Библиотека</a><a href="#shelf" data-nav="shelf">Моя полка <span id="shelf-count">0</span></a><a href="#wardrobe" data-nav="wardrobe">Винсент <span class="nav-wallet"><span aria-hidden="true">●</span> <span id="coin-wallet">0</span></span></a></nav>
     <button type="button" id="sound-toggle" class="icon-button" aria-label="Включить звуки" aria-pressed="false"></button>
   </header>

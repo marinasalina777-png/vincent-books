@@ -1,0 +1,197 @@
+/* «Ночная библиотека»: магазин и примерочная Винсента (#wardrobe). Подключается после shop.css и night.css.
+   Тёмные карточки на ночном фоне, золотые монетки, лампа подсвечивает «следующую покупку»; диалоги покупки и селфи — светлая страница. */
+
+/* ── Монетки ───────────────────────────────────── */
+.coin-symbol{width:22px;height:22px;border:0;font-size:0;color:transparent;background:radial-gradient(circle at 35% 35%,#ffe9a3,#e09a1f);box-shadow:inset 0 0 0 3px #c98510,0 2px 6px #f2b54455}
+.nav-wallet{display:inline-flex!important;align-items:center;gap:6px;color:#3a2606!important;background:var(--lamp)!important;font:900 16px var(--ui)!important;padding:4px 12px 4px 6px!important;box-shadow:0 4px 16px #f2b54455}
+.shop-wallet .coin-symbol{width:36px;height:36px;font-size:0;box-shadow:inset 0 0 0 5px #c98510,0 4px 14px #f2b54466}
+.shop-card-top .coin-symbol{width:20px;height:20px;font-size:0;box-shadow:inset 0 0 0 3px #c98510}
+
+/* ── Заголовок страницы ────────────────────────── */
+.shop-page-top h1{font-size:clamp(38px,5vw,56px)}
+.shop-page-top p{font-size:19px;max-width:610px}
+
+/* ── Примерочная: сцена с тёплым светом лампы ──── */
+.shop-dashboard{gap:28px;margin:30px 0 24px}
+.dressing-room{border:0;border-radius:28px;padding:28px 22px 24px;color:var(--cream);background:linear-gradient(170deg,var(--surface-2),var(--surface));box-shadow:inset 0 1px 0 #ffffff22,inset 0 0 0 2px var(--surface-line),0 8px 0 #0b2233,var(--shadow-soft)}
+.dressing-stage{max-width:420px;min-height:370px;padding:10px 10px 22px}
+.dressing-stage:before{content:'';position:absolute;inset:-4% -10% 4%;background:radial-gradient(ellipse 62% 58% at 50% 46%,#ffd98a55,transparent 72%);pointer-events:none}
+.dressing-stage .vincent{filter:drop-shadow(0 22px 26px #050f18b3)}
+.dressing-caption h2{font-size:28px;margin:8px 0 10px;color:var(--cream)}
+.dressing-caption p{font:700 16px/1.5 var(--ui);color:var(--mist);margin-bottom:16px}
+.equipped-chips{gap:10px}
+.equipped-chips button{min-height:48px;padding:8px 16px;border:0;border-radius:999px;background:#ffffff14;box-shadow:inset 0 0 0 2px var(--surface-line-strong);color:var(--cream);font:800 15px/1.3 var(--ui)}
+.equipped-chips button:hover{background:#ffffff24}
+.equipped-chips button span{font-size:20px;color:var(--lamp)}
+.shop-mascot .mascot-item:focus-visible,.mascot-look-play:focus-visible{outline-color:var(--lamp)}
+.shop-mascot .mascot-play-stars{color:var(--lamp);text-shadow:0 0 14px #ffd56a}
+@keyframes raincoat-shimmer{0%,100%{filter:brightness(1) drop-shadow(0 22px 26px #050f18b3)}50%{filter:brightness(1.13) saturate(1.08) drop-shadow(0 22px 26px #050f18b3)}}
+
+/* ── Следующая покупка и кошелёк ───────────────── */
+.shop-next{border:0;border-radius:28px;padding:28px;background:linear-gradient(170deg,var(--surface-2),var(--surface));box-shadow:inset 0 1px 0 #ffffff22,inset 0 0 0 2px var(--surface-line),0 8px 0 #0b2233,var(--shadow-soft)}
+.shop-wallet{margin-bottom:22px}
+.shop-wallet strong{font:400 46px/1 var(--display);color:var(--cream)}
+.shop-wallet small{font:800 16px/1.3 var(--ui);color:var(--mist);max-width:none}
+.collection-pill{padding:8px 16px;border:0;background:#ffffff14;box-shadow:inset 0 0 0 2px var(--surface-line-strong);color:var(--cream);font:800 15px var(--ui)}
+.shop-next>.eyebrow{font:800 17px/1.3 var(--ui);letter-spacing:0;text-transform:none;color:var(--lamp);margin-bottom:6px}
+.next-reward-art{background:radial-gradient(circle,#ffd98a40,transparent 68%)}
+.shop-next h2{font-size:clamp(26px,2.6vw,32px);color:var(--cream);margin:10px 0}
+.shop-next>p{font:600 17px/1.55 var(--ui);color:var(--cream-2);min-height:0}
+.next-price{margin:18px 0 14px;font:800 16px var(--ui);color:var(--cream-2)}
+.next-price>span:first-child{background:var(--lamp);color:#3a2606;font:900 17px var(--ui);padding:6px 16px 6px 10px;border-radius:999px;box-shadow:0 4px 14px #f2b54444}
+.next-price strong{font:900 22px var(--ui)}
+.next-price>span:last-child{font:800 16px var(--ui);color:var(--lamp)}
+.next-actions{gap:12px;margin:20px 0 22px}
+.next-actions .button{font-size:17px;padding:12px 16px;min-height:52px}
+.next-actions .button:disabled{opacity:.62}
+.whole-journey{border-top:2px dashed var(--surface-line);padding-top:18px}
+.whole-journey>div:first-child{font:800 16px var(--ui);margin-bottom:12px}
+.whole-journey strong{white-space:nowrap;font:400 24px var(--display);color:var(--cream)}
+.whole-journey span,.whole-journey p{color:var(--mist)}
+.whole-journey p{font:700 15px/1.5 var(--ui);margin-top:12px}
+.shop-finished>svg{fill:var(--lamp);stroke:var(--lamp-deep);filter:drop-shadow(0 0 18px #f2b544aa)}
+.shop-finished h2{font-size:30px;color:var(--cream)}
+.shop-finished p{font:600 17px/1.55 var(--ui);color:var(--cream-2)}
+
+/* ── «Как заработать монетки?» и сворачиваемые блоки */
+.shop-how,.legacy-collection,.coin-checklist{border:0;border-radius:22px;background:#ffffff08;box-shadow:inset 0 0 0 2px var(--surface-line);padding:0 24px;font:600 17px/1.65 var(--ui);color:var(--cream-2)}
+.shop-how{margin-bottom:36px}
+.legacy-collection,.coin-checklist{margin:28px 0;color:var(--cream-2)}
+.shop-how summary,.legacy-collection>summary,.coin-checklist>summary{min-height:56px;padding:16px 0;font:800 18px/1.4 var(--ui);color:var(--lamp);cursor:pointer}
+.shop-how p strong{color:var(--cream)}
+.shop-how .button{margin-top:6px;padding:12px 18px;font-size:17px}
+
+/* ── Коллекция ─────────────────────────────────── */
+.shop-collection-heading{margin:40px 0 22px}
+.shop-collection-heading .eyebrow{font-size:17px;letter-spacing:0;margin-bottom:8px}
+.shop-collection-heading h2{font-size:32px}
+.shop-filters{gap:10px}
+.shop-filters .chip{font-size:17px}
+.shop-grid{gap:22px}
+.shop-card{border:0;border-radius:24px;padding:20px;background:linear-gradient(170deg,var(--surface-2),var(--surface));box-shadow:inset 0 1px 0 #ffffff22,inset 0 0 0 2px var(--surface-line),0 8px 0 #0b2233,var(--shadow-soft);color:var(--cream)}
+.shop-card-top{min-height:30px;font:800 15px var(--ui);color:var(--mist);flex-wrap:wrap}
+.shop-card-top span:last-child{margin-left:auto}
+.shop-card.is-future .shop-card-top span:last-child{display:inline-flex;align-items:center;gap:6px;background:var(--lamp);color:#3a2606;font-weight:900;padding:3px 12px 3px 6px;border-radius:999px}
+.shop-card-art{position:relative;margin:10px 0 14px;height:158px}
+.shop-card-art img{filter:hue-rotate(var(--item-hue,0deg)) drop-shadow(0 10px 12px #050f1888)}
+.shop-card .eyebrow{font:800 15px/1.3 var(--ui);letter-spacing:0;text-transform:none;color:var(--lamp);margin-bottom:6px}
+.shop-card h3{font-size:24px;line-height:1.25;margin-bottom:10px;color:var(--cream)}
+.shop-card>p{font:600 16px/1.55 var(--ui);color:var(--cream-2);margin-bottom:18px}
+.shop-card>.button{font-size:17px;min-height:52px;padding:10px 14px;line-height:1.3}
+.shop-card.is-future>.button{font-size:16px;background:#ffffff0d;opacity:.8}
+.shop-card.is-future>.button:disabled{opacity:.72}
+
+/* Следующая покупка: свет лампы */
+.shop-card.is-next{background:linear-gradient(170deg,#3a5f6e,#2a5168);box-shadow:inset 0 0 0 3px var(--lamp),0 0 0 6px #f2b5442b,0 8px 0 #0b2233,0 16px 34px #f2b54433}
+.shop-card.is-next .shop-card-art:before{content:'';position:absolute;inset:-8%;background:radial-gradient(circle,#ffd98a66,transparent 68%);pointer-events:none}
+.shop-card.is-next .shop-card-art img{position:relative}
+.shop-card.is-next .shop-card-top span:last-child{background:var(--lamp);color:#3a2606;font-weight:900;padding:3px 12px;border-radius:999px}
+.shop-card.is-next>.button:disabled{opacity:.62}
+
+/* Ещё закрыто: приглушено, но читается, с замочком */
+.shop-card.is-future .shop-card-art img{opacity:.72;filter:saturate(.7) hue-rotate(var(--item-hue,0deg)) drop-shadow(0 10px 12px #050f1888)}
+.shop-card.is-future .shop-card-art:after{content:'🔒';position:absolute;right:2px;bottom:0;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:#06121ccc;box-shadow:inset 0 0 0 2px var(--surface-line-strong);font-size:20px;line-height:1}
+
+/* В коллекции: бирюзовая галочка */
+.shop-card.is-owned{background:linear-gradient(170deg,#2a6068,#1c4a58);box-shadow:inset 0 0 0 2px #5fc0b066,0 8px 0 #0b2233,var(--shadow-soft)}
+.shop-card.is-owned .shop-card-top{color:#9ee6d9}
+.shop-card.is-owned .shop-card-top span:last-child{background:var(--teal);color:#06231f;font-weight:900;padding:3px 12px;border-radius:999px}
+.shop-card.is-owned>.button.secondary:disabled{opacity:1;background:#5fc0b024;color:#9ee6d9;box-shadow:inset 0 0 0 2px var(--teal)}
+.shop-card.is-owned>.button.secondary:disabled:before,.legacy-grid .button:disabled:before{content:'✓';font-weight:900;color:var(--teal)}
+.shop-card.is-owned .eyebrow{color:#9ee6d9}
+
+/* Цвета: касание ≥ 44px, чёткое кольцо у выбранного */
+.item-colors{gap:8px;padding-top:12px}
+.item-colors .color-dot{box-sizing:border-box;width:48px;height:48px;min-height:48px;padding:9px;border:0;border-radius:50%;background-clip:content-box;box-shadow:inset 0 0 0 2px #ffffff44;transition:box-shadow .15s}
+.item-colors .color-dot:hover{box-shadow:inset 0 0 0 3px #fff4dc99}
+.item-colors .color-dot[aria-pressed=true]{box-shadow:inset 0 0 0 4px var(--lamp),0 0 14px #f2b54466}
+.item-colors .color-dot[aria-pressed=true]:after{font:900 18px var(--ui);color:#2d1d04}
+
+/* ── Прежние подарки и маршрут ─────────────────── */
+.legacy-collection p,.coin-checklist p{font-size:17px}
+.legacy-grid{gap:14px;margin-bottom:28px}
+.legacy-grid article{border:0;border-radius:20px;padding:16px;background:linear-gradient(170deg,var(--surface-2),var(--surface));box-shadow:inset 0 0 0 2px var(--surface-line),0 6px 0 #0b2233}
+.legacy-grid img{height:110px}
+.legacy-grid strong{font:400 20px/1.25 var(--display);color:var(--cream)}
+.legacy-grid .button{font-size:16px;min-height:52px;padding:10px 14px}
+.legacy-grid .button:disabled{opacity:1;background:#5fc0b024;color:#9ee6d9;box-shadow:inset 0 0 0 2px var(--teal)}
+.coin-checklist>div{padding-right:10px}
+.coin-book-row{grid-template-columns:minmax(0,1fr) 64px 64px;border-bottom:2px solid var(--surface-line)}
+.coin-book-row strong{font:800 16px/1.4 var(--ui);color:var(--cream)}
+.coin-book-row small{font:700 14px/1.4 var(--ui);color:var(--mist);margin-top:3px}
+.coin-book-row>span:not(:first-child){font:900 22px var(--ui);color:var(--teal)}
+.coin-book-row>span:not(:first-child) small{font-size:14px;font-weight:700}
+.coin-book-row>span[aria-label*="не пройдено"]{color:var(--mist);opacity:.7}
+
+/* ── Баннер награды на главной ─────────────────── */
+.shop-banner .balance-mini{font:800 16px var(--ui);color:var(--lamp);margin-bottom:8px}
+.shop-banner strong{font-size:24px;line-height:1.25}
+.shop-banner p{font-size:16px;max-width:650px}
+.quest-check input{accent-color:var(--lamp)}
+
+/* ── Диалоги покупки и селфи: светлая страница ─── */
+.shop-dialog{text-align:center;max-width:min(550px,calc(100vw - 32px))}
+.shop-dialog .purchase-art{width:210px;height:210px;margin:6px auto 14px;background:radial-gradient(circle,#f2b54447,transparent 68%)}
+.shop-dialog .purchase-art img{filter:hue-rotate(var(--item-hue,0deg)) drop-shadow(0 10px 12px #3b2a0f44)}
+.shop-dialog h2{font-size:clamp(28px,3.4vw,34px);color:var(--page-ink);margin-bottom:14px}
+.shop-dialog>p{font:600 18px/1.65 var(--ui);color:var(--page-ink)}
+.shop-dialog>h2+p{display:inline-block;background:var(--lamp);color:#3a2606;font:900 18px/1.4 var(--ui);padding:8px 20px;border-radius:24px;box-shadow:0 4px 0 var(--lamp-deep);margin-bottom:12px}
+.shop-dialog>.button{margin-top:16px}
+.shop-dialog .selfie-download{display:inline-flex;margin-top:14px}
+.selfie-frame{border:9px solid var(--night-2);border-radius:30px;background:linear-gradient(160deg,#fff1d0,#f1dcae);box-shadow:inset 0 0 0 2px #fff,0 12px 28px #20382b33}
+.selfie-camera{background:var(--night-0)}
+.selfie-frame strong{font:400 26px var(--display);color:var(--page-ink)}
+.selfie-frame small{font:800 14px var(--ui);color:var(--page-muted)}
+.selfie-frame .vincent{filter:drop-shadow(0 14px 14px #3b2a0f44)}
+.shop-dialog .board-actions{justify-content:center}
+
+/* ── Планшет ───────────────────────────────────── */
+@media(max-width:850px){
+  .nav-wallet{font-size:17px!important;padding:8px 14px 8px 8px!important}
+  .shop-page-top h1{font-size:42px}
+  .shop-dashboard{gap:18px}
+  .dressing-room{padding:22px 14px}.dressing-stage{min-height:290px}
+  .shop-next{padding:22px}
+  .shop-wallet strong{font-size:38px}.shop-wallet small{font-size:15px}.collection-pill{font-size:14px}
+  .shop-next h2{font-size:26px}
+  .shop-grid{gap:16px}.shop-card{padding:16px}.shop-card h3{font-size:22px}.shop-card-top{font-size:14px}
+  .shop-card-art{height:140px}
+}
+/* ── Телефон ───────────────────────────────────── */
+@media(max-width:600px){
+  .shop-page-top h1{font-size:36px}.shop-page-top p{font-size:17px}
+  .shop-dashboard{margin-top:18px}
+  .dressing-room{padding:20px 14px 20px}.dressing-stage{max-width:300px;min-height:280px}
+  .dressing-caption h2{font-size:25px}.dressing-caption p{font-size:16px}
+  .equipped-chips button{font-size:15px}
+  .shop-next{padding:22px 18px}
+  .shop-wallet{margin-bottom:18px}.shop-wallet strong{font-size:40px}.shop-wallet small{font-size:15px}
+  .next-reward-art{width:115px;height:115px}
+  .shop-next h2{font-size:26px}.shop-next>p{font-size:16px;min-height:0}
+  .next-actions .button{font-size:16px;min-width:0}
+  .shop-how,.legacy-collection,.coin-checklist{padding:0 16px;font-size:16px}
+  .shop-collection-heading{gap:14px}.shop-collection-heading h2{font-size:28px}.shop-filters .chip{font-size:16px}
+  .shop-grid{gap:12px}
+  .shop-card{padding:14px 12px;border-radius:20px}
+  .shop-card-top{font-size:14px;gap:4px}
+  .shop-card-art{height:120px;margin:8px 0 14px}.shop-card-art img{max-width:140px}
+  .shop-card.is-future .shop-card-art:after{width:36px;height:36px;font-size:17px}
+  .shop-card .eyebrow{font-size:14px}
+  .shop-card h3{font-size:20px}
+  .shop-card>p{font-size:15px;line-height:1.5;margin-bottom:14px}
+  .shop-card>.button,.shop-card.is-future>.button{font-size:15px;min-height:52px;padding:8px 8px}
+  .item-colors{gap:2px}
+  .legacy-grid{gap:10px}.legacy-grid article{padding:12px}.legacy-grid strong{font-size:18px}.legacy-grid .button{font-size:15px}
+  .coin-book-row{grid-template-columns:minmax(0,1fr) 58px 58px;gap:6px}
+  .coin-book-row strong{font-size:15px}.coin-book-row small,.coin-book-row>span:not(:first-child) small{font-size:14px}
+  .shop-dialog .eyebrow{padding:0 44px}
+  .shop-dialog .purchase-art{width:170px;height:170px}.shop-dialog h2{font-size:26px}
+  .shop-dialog>h2+p{font-size:16px;padding:8px 16px}.shop-dialog>p{font-size:17px}
+  .selfie-frame{max-width:290px}.selfie-frame strong{font-size:24px}
+  .shop-banner .balance-mini{font-size:15px}.shop-banner strong{font-size:22px}.shop-banner p{font-size:15px}
+}
+@media(max-width:360px){
+  .shop-card>p{font-size:14px}.shop-card h3{font-size:18px}.shop-card>.button,.shop-card.is-future>.button{font-size:14px}
+  .shop-collection-heading .eyebrow{font-size:15px}.shop-how .button{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.item-colors .color-dot,.shop-card{transition:none}}
